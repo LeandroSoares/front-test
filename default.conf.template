@@ -1,0 +1,8 @@
+server {
+    listen       80;
+    location / {
+        root /var/www;
+        ssi on;
+        set $ssisignouturl "${SIGN_OUT_URL}";
+    }
+}
