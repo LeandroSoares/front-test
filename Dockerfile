@@ -1,12 +1,17 @@
 FROM nginx:latest
-# COPY dist /usr/share/nginx/html
 
-# COPY dist /app/static
-# COPY ./nginx.conf /etc/nginx/nginx.conf
+# COPY configuration
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/default.conf.template /etc/nginx/templates/
 
-
+# COPY APP
 COPY dist /var/www
 
-COPY default.conf.template /etc/nginx/templates/
+# DEFINE DEFAULT ENVIRONMENT VARIABLES
 
-ENV SIGN_OUT_URL="#"
+ENV MESSAGE="<<<DEBUG_MESSAGE>>>"
+
+# LOG_LEVEL config
+# debug | info | notice | warn | error | crit
+ENV LOG_LEVEL="notice"
+

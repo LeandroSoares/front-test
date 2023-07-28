@@ -1,0 +1,32 @@
+server {
+    listen       80;
+    access_log  /var/log/nginx/access.log json;
+    error_log  /var/log/nginx/error.log ${LOG_LEVEL};
+    
+    root /var/www;
+    index index.html;
+
+    location / {
+
+        try_files $uri $uri/ $uri.html /index.html;
+
+        ssi on;
+        sub_filter </head>
+            '</head><script language="javascript">const MESSAGE="${MESSAGE}"</script>';
+        sub_filter_once on;
+
+        gzip on;
+        gzip_types text/html application/javascript application/json text/css;
+    }
+
+    location ~* \.(?:css|js|jpg|svg)$ {
+        expires 30d;
+        add_header Cache-Control "public";
+    }
+
+    location ~* \.(?:json)$ {
+        expires 1d;
+        add_header Cache-Control "public";
+    }
+
+}
